@@ -11,19 +11,12 @@ into the MusicBrainz pages.
 Before starting the application copy `config.py.example` into `config.py` and
 tweak the configuration.
 
-The easiest way to set up a development environment is to use [Vagrant](https://www.vagrantup.com/).
-This command will create and configure virtual machine that you will be able to
-use for development:
+The easiest way to set up a development environment is to use [Docker](https://www.docker.com/):
 
-    $ vagrant up
+    $ docker-compose up --build
 
-After VM is created and running, access it via SSH and start the application:
-
-    $ vagrant ssh
-    $ cd mbspotify
-    $ python mbspotify/server.py
-
-Web server should be accessible at http://localhost:8080/.
+After containers are created and running, you can access the application at
+http://localhost:80/.
 
 ### Testing
 
@@ -32,36 +25,6 @@ To run all tests run:
     $ nosetests --exe
 
 More info about nose can be found at https://nose.readthedocs.org/.
-
-
-## Deployment
-
-If you want to do development you should use instructions above. It is much
-easier way to start.
-
-### Requirements
-
-* Python 2.7
-* PostgreSQL
-
-### Initialization
-
-Copy example of configuration file into *config.py*. And tweak the configuration.
-
-Install Python dependencies:
-
-    $ pip install -r requirements.txt
-
-Create the database and prepare it for use:
-
-    $ cd sql
-    $ ./setup.sh
-
-### Running
-
-After that app is ready to go.
-
-    $ python mbspotify/server.py
 
 
 ## Community
