@@ -1,22 +1,22 @@
+.git
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 
+# Application data
+/data
+
+# Virtual environment
+env
+venv
+/build
+
 # Logs
+*.log
 pip-log.txt
 pip-delete-this-directory.txt
 
 # Test results
-/cover/
-nosetests.xml
-.tox/
-.cache
+htmlcov
 .coverage
-
-# Application data
-/data
-
-# Vagrant
-.vagrant
-
-config.py
