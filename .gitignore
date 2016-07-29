@@ -16,7 +16,4 @@ nosetests.xml
 # Application data
 /data
 
-# Vagrant
-.vagrant
-
 config.py
