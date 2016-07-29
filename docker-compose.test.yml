@@ -1,0 +1,15 @@
+# Docker Compose file for testing
+version: "2"
+services:
+
+  db:
+    extends:
+      file: ./docker/common.yml
+      service: db
+
+  web_test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    depends_on:
+      - db
