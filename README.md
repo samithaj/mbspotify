@@ -20,11 +20,9 @@ http://localhost:80/.
 
 ### Testing
 
-To run all tests run:
+To run all tests use:
 
-    $ nosetests --exe
-
-More info about nose can be found at https://nose.readthedocs.org/.
+    $ py.test
 
 
 ## Community
