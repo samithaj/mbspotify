@@ -22,13 +22,11 @@ class ViewsTestCase(TestCase):
         self.json_headers = {"Content-Type": "application/json"}
 
     def tearDown(self):
-        conn = psycopg2.connect(**self.app.config["PG_INFO"])
-        cur = conn.cursor()
-        cur.execute("TRUNCATE mapping_vote CASCADE;")
-        cur.execute("TRUNCATE mapping CASCADE;")
-        conn.commit()
-        cur.close()
-        conn.close()
+        with psycopg2.connect(**self.app.config["PG_INFO"]) as conn:
+            with conn.cursor() as cur:
+                cur.execute("TRUNCATE mapping_vote CASCADE;")
+                cur.execute("TRUNCATE mapping      CASCADE;")
+                conn.commit()
 
     def create_app(self):
         app = create_app()
@@ -92,6 +90,7 @@ class ViewsTestCase(TestCase):
         })
 
         # Let"s try voting multiple times as the same user
+        # FIXME(roman): This doesn't work in Python 3
         for _ in range(10):
             self.client.post(
                 "/mapping/vote?key=%s" % self.app.config["ACCESS_KEYS"][0],
