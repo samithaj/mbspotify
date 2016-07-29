@@ -92,7 +92,7 @@ class ViewsTestCase(TestCase):
         })
 
         # Let"s try voting multiple times as the same user
-        for _ in xrange(10):
+        for _ in range(10):
             self.client.post(
                 "/mapping/vote?key=%s" % self.app.config["ACCESS_KEYS"][0],
                 headers=self.json_headers,
