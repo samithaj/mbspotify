@@ -16,5 +16,3 @@ services:
     build:
       context: ./nginx_custom/
       dockerfile: Dockerfile
-    ports:
-      - "80:80"
