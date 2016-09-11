@@ -22,8 +22,6 @@ services:
       dockerfile: Dockerfile.prod
     volumes:
       - ./data/app:/data
-    ports:
-      - "3031:3031"
     depends_on:
       - db
       - redis
