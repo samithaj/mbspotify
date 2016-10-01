@@ -17,6 +17,9 @@ venv
 pip-log.txt
 pip-delete-this-directory.txt
 
+# Configuration generated from Consul's KV storage
+/consul_config.py
+
 # Test results
 htmlcov
 .coverage

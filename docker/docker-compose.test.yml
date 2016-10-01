@@ -4,12 +4,12 @@ services:
 
   db:
     extends:
-      file: ./docker/common.yml
+      file: ./common.yml
       service: db
 
   web_test:
     build:
-      context: .
-      dockerfile: Dockerfile.test
+      context: ..
+      dockerfile: ./docker/Dockerfile.test
     depends_on:
       - db

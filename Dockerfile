@@ -1,12 +1,19 @@
 FROM python:2.7.12
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-                       build-essential \
-                       libffi-dev \
-                       libssl-dev \
-                       libxml2-dev \
-                       libxslt1-dev
+COPY ./docker/prod/environment /etc/consul_template_env.sh
+
+COPY ./docker/prod/docker-helpers/install_consul_template.sh \
+     ./docker/prod/docker-helpers/install_runit.sh \
+     /usr/local/bin/
+RUN chmod 755 /usr/local/bin/install_consul_template.sh /usr/local/bin/install_runit.sh && \
+    install_consul_template.sh && \
+    rm -f \
+        /usr/local/bin/install_consul_template.sh \
+        /usr/local/bin/install_runit.sh
+
+#############
+# MBSpotify #
+#############
 
 # PostgreSQL client
 RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
@@ -22,9 +29,32 @@ RUN mkdir /code
 WORKDIR /code
 
 # Python dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+                    build-essential \
+                    libffi-dev \
+                    libssl-dev \
+                    libxml2-dev \
+                    libxslt1-dev
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 
+RUN pip install uWSGI==2.0.13.1
+
 COPY . /code/
 
-CMD python server.py
+############
+# Services #
+############
+
+# Consul-template is already installed with install_consul_template.sh
+COPY ./docker/prod/uwsgi.service /etc/sv/uwsgi/run
+RUN chmod 755 /etc/sv/uwsgi/run && \
+    ln -sf /etc/sv/uwsgi /etc/service/
+
+# Configuration
+COPY ./docker/prod/uwsgi.ini /etc/uwsgi/uwsgi.ini
+COPY ./docker/prod/consul-template.conf /etc/consul-template.conf
+
+EXPOSE 3031
+ENTRYPOINT ["/usr/local/bin/runsvinit"]
